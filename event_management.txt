@@ -1,0 +1,44 @@
+create table if not exists account(
+username varchar(100) not null,
+name varchar(100) not null,
+password varchar(100) not null,
+sec_q varchar(100) not null,
+sec_ans varchar(100) not null,
+primary key (username));
+
+insert into account(username, name, password, sec_q, sec_ans) values
+('aditya_2110','aditya','chetan','Your NickName?','aditya');
+
+
+CREATE SEQUENCE event_seq;
+
+CREATE TABLE IF NOT EXISTS event (
+  id int NOT NULL DEFAULT NEXTVAL ('event_seq'),
+  name varchar(100) NOT NULL,
+  contactno int NOT NULL,
+  price int NOT NULL,
+  guestcount int NOT NULL,
+  start_date date NOT NULL,
+  end_date date NOT NULL,	
+  description varchar(300) NOT NULL,
+  created_date timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
+select * from event;
+ 
+CREATE TABLE IF NOT EXISTS event_registration (
+  event_id int NOT NULL,
+  username varchar(100) not null,
+  numseats int NOT NULL,
+  amount_paid int NOT NULL,
+  registration_date timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (event_id, username),
+  CONSTRAINT fk_event
+      FOREIGN KEY(event_id) 
+	  REFERENCES event(id),
+          ON DELETE CASCADE
+  CONSTRAINT fk_user
+      FOREIGN KEY(username) 
+	  REFERENCES account(username)
+          ON DELETE CASCADE
+);
